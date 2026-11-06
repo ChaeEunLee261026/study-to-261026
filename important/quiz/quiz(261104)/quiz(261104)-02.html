@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        /*
+            position 속성 : 위치 지정 (배치)
+            
+                static : 기본 흐름 (기본값)
+                relative : 흐름대로 + 위치 조정 가능
+                           (위치기준 : 원래 자기가 있어야하는 위치)
+                
+                absolute : 흐름무시 + 위치 조정 가능
+                            (위치기준 : 위치조정이 가능한 부모요소의 시작지점 기준)
+                                부모요소 static : 기준점X
+                                부모요소 relative : 기준점O
+                
+                fixed : 흐름무시 + 절대좌표 위치 지정
+                sticky : 흐름대로 + 특정 위치에 가면 fixed 처럼 고정
+
+                위치 조정
+                left
+                top
+                right
+                bottom
+        */
+
+        .box {
+            width: 100px;
+            height: 100px;
+        }
+
+        .box-top {
+            background-color: lightgrey;
+        }
+
+        .black-box {
+            width: 500px;
+            height: 300px;
+            border: 3px solid black;
+            position: relative;
+            left: 100px;
+        }
+
+        .red-box {
+            background-color: red;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            left: 0px;
+        }
+
+        .green-box {
+            background-color: green;
+            position: absolute;
+            left: 100px;
+            top: 50px;
+            left: 50px;
+            z-index: 10;
+        }
+
+        .yellow-box {
+            background-color: yellow;
+            position: absolute;
+            top: 100px;
+            left: 0px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="box-top">
+        <h3>배경색이 lightgray<br>
+            h3글자</h3>
+    </div>
+
+    <div class="box black-box">
+    <div class="box red-box">A</div>
+    <div class="box green-box">B</div>
+    <div class="box yellow-box">C</div>
+    </div>
+
+
+
+</body>
+
+</html>
