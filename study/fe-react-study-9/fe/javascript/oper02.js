@@ -97,3 +97,20 @@ console.log(q + String(w)+e);
 
 console.log(Number('12345'));
 console.log(Number('12345.12345'));
+
+// && 조건식 처럼 사용
+q = 10 ;
+if(q == 10) {
+    console.log('q가 10이더라');
+}
+
+q == 10 && console.log('q가 10이더라');
+q == 11 && console.log('q가 11이더라');
+q !== 11 && console.log('q가 11이 아니더라');
+
+console.log(10 == 10);
+console.log(10 == 10.0);
+console.log(10 === 10.0);
+console.log('10' == '10.0');
+console.log(Number('10') == Number('10.0'));
+console.log(Number('10') === Number('10.0'));
