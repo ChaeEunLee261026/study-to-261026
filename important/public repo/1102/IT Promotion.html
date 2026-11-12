@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CODE SCHOOL | IT 교육 전문 기관</title>
+
+  <style>
+    /* 기본 설정 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+      color: #17233c;
+      background: #ffffff;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 상단 메뉴 */
+    header {
+      width: 100%;
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10%;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      color: #245ee8;
+      letter-spacing: -1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 30px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #245ee8;
+    }
+
+    .header-btn {
+      background: #245ee8;
+      color: white;
+      padding: 11px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* 메인 화면 */
+    .hero {
+      background: linear-gradient(135deg, #101d3a, #1d3970);
+      color: white;
+      padding: 110px 10%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      min-height: 520px;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      color: #a9c8ff;
+      background: rgba(255,255,255,0.1);
+      padding: 8px 15px;
+      border-radius: 30px;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5vw, 55px);
+      line-height: 1.3;
+      margin-bottom: 22px;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: #73a8ff;
+    }
+
+    .hero p {
+      color: #d0d9e9;
+      font-size: 16px;
+      margin-bottom: 35px;
+    }
+
+    .main-btn {
+      display: inline-block;
+      background: #3979ed;
+      color: white;
+      padding: 15px 28px;
+      border-radius: 9px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .main-btn:hover {
+      background: #5b91f5;
+      transform: translateY(-3px);
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 35px;
+      border-radius: 20px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .hero-card .emoji {
+      font-size: 75px;
+      margin-bottom: 15px;
+    }
+
+    .hero-card h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .hero-card p {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* 공통 섹션 */
+    section {
+      padding: 90px 10%;
+      text-align: center;
+    }
+
+    .section-label {
+      color: #3979ed;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 34px;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .section-desc {
+      color: #778197;
+      font-size: 15px;
+      margin-bottom: 45px;
+    }
+
+    /* 교육과정 */
+    .course-section {
+      background: #f6f8fc;
+    }
+
+    .course-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      max-width: 950px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .course-card {
+      background: white;
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.04);
+      transition: 0.3s;
+      border: 1px solid #edf0f5;
+    }
+
+    .course-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 12px 30px rgba(40,80,150,0.1);
+    }
+
+    .course-icon {
+      width: 65px;
+      height: 65px;
+      background: #eaf1ff;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 22px;
+    }
+
+    .course-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .course-card p {
+      color: #788397;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .course-tag {
+      display: inline-block;
+      background: #eef3ff;
+      color: #3979ed;
+      font-size: 12px;
+      padding: 7px 12px;
+      border-radius: 20px;
+      margin: 3px;
+      font-weight: bold;
+    }
+
+    /* 교육 특징 */
+    .feature-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .feature-item {
+      padding: 25px 15px;
+    }
+
+    .feature-item .emoji {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .feature-item h3 {
+      font-size: 19px;
+      margin-bottom: 10px;
+    }
+
+    .feature-item p {
+      color: #788397;
+      font-size: 14px;
+    }
+
+    /* 하단 신청 영역 */
+    .contact {
+      background: #172b50;
+      color: white;
+      padding: 75px 10%;
+    }
+
+    .contact h2 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .contact p {
+      color: #c2cee2;
+      margin-bottom: 30px;
+      font-size: 15px;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: white;
+      color: #245ee8;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    /* 하단 정보 */
+    footer {
+      background: #101d3a;
+      color: #aebbd0;
+      text-align: center;
+      padding: 25px;
+      font-size: 12px;
+    }
+
+    /* 모바일 화면 대응 */
+    @media (max-width: 768px) {
+      header {
+        padding: 0 5%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 75px 7%;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-card {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      section {
+        padding: 70px 7%;
+      }
+
+      .course-container {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 상단 메뉴 -->
+  <header>
+    <a href="#" class="logo">CODE SCHOOL.</a>
+
+    <nav>
+      <a href="#about">교육기관 소개</a>
+      <a href="#course">교육과정</a>
+      <a href="#feature">교육 특징</a>
+    </nav>
+
+    <a href="#contact" class="header-btn">교육 문의</a>
+  </header>
+
+
+  <!-- 메인 화면 -->
+  <main class="hero">
+    <div class="hero-content">
+
+      <span class="hero-label">
+        IT EDUCATION & CREATIVE LEARNING
+      </span>
+
+      <h1>
+        상상을 현실로 만드는<br>
+        <span>나만의 첫 번째 코딩</span>
+      </h1>
+
+      <p>
+        코딩이 처음이어도 괜찮아요!<br>
+        쉽고 재미있는 교육으로 나만의 아이디어를<br>
+        직접 만들어 보는 경험을 시작하세요.
+      </p>
+
+      <a href="#course" class="main-btn">
+        교육과정 알아보기 →
+      </a>
+
+    </div>
+
+    <div class="hero-card">
+      <div class="emoji">💻</div>
+      <h3>생각을 만드는 기술</h3>
+      <p>
+        배우고, 상상하고, 직접 만들어 보는<br>
+        즐거운 IT 세상으로 초대합니다!
+      </p>
+    </div>
+  </main>
+
+
+  <!-- 교육기관 소개 -->
+  <section id="about">
+
+    <div class="section-label">ABOUT US</div>
+
+    <h2 class="section-title">
+      누구나 시작할 수 있는 IT 교육
+    </h2>
+
+    <p class="section-desc">
+      어려운 컴퓨터 지식도 쉽고 재미있게!
+      기초부터 차근차근 배울 수 있습니다.
+    </p>
+
+  </section>
+
+
+  <!-- 교육과정 -->
+  <section class="course-section" id="course">
+
+    <div class="section-label">OUR PROGRAM</div>
+
+    <h2 class="section-title">
+      나에게 맞는 교육과정을 찾아보세요
+    </h2>
+
+    <p class="section-desc">
+      두 가지 핵심 과정으로 디지털 세상을 경험해 보세요.
+    </p>
+
+    <div class="course-container">
+
+      <!-- 첫 번째 과정 -->
+      <div class="course-card">
+
+        <div class="course-icon">🌐</div>
+
+        <h3>웹 개발 기초 과정</h3>
+
+        <p>
+          인터넷에서 볼 수 있는 홈페이지를 직접 만들어 봐요!
+          글자와 색깔을 꾸미고 나만의 웹사이트를 완성해요.
+        </p>
+
+        <span class="course-tag">HTML</span>
+        <span class="course-tag">CSS</span>
+        <span class="course-tag">홈페이지 제작</span>
+
+      </div>
+
+
+      <!-- 두 번째 과정 -->
+      <div class="course-card">
+
+        <div class="course-icon">🤖</div>
+
+        <h3>AI 활용 및 실무 과정</h3>
+
+        <p>
+          인공지능이 무엇인지 알아보고 AI 도구를 활용해
+          글쓰기, 그림 만들기 등 다양한 활동을 경험해요.
+        </p>
+
+        <span class="course-tag">AI 기초</span>
+        <span class="course-tag">생성형 AI</span>
+        <span class="course-tag">AI 활용</span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- 교육 특징 -->
+  <section id="feature">
+
+    <div class="section-label">WHY CODE SCHOOL</div>
+
+    <h2 class="section-title">
+      CODE SCHOOL만의 특별함
+    </h2>
+
+    <p class="section-desc">
+      처음 배우는 사람도 즐겁게 성장할 수 있도록!
+    </p>
+
+    <div class="feature-container">
+
+      <div class="feature-item">
+        <div class="emoji">📚</div>
+        <h3>쉬운 기초 교육</h3>
+        <p>
+          어려운 용어 대신 쉬운 설명으로<br>
+          하나씩 배워 나갑니다.
+        </p>
+      </div>
+
+      <div class="feature-item">
+        <div class="emoji">🎨</div>
+        <h3>직접 만드는 실습</h3>
+        <p>
+          눈으로 보는 것에서 끝나지 않고<br>
+          직접 결과물을 만들어 봅니다.
+        </p>
+      </div>
+
+      <div class="feature-item">
+        <div class="emoji">🚀</div>
+        <h3>미래 역량 키우기</h3>
+        <p>
+          새로운 기술을 경험하며<br>
+          창의적인 생각을 키워갑니다.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- 교육 문의 -->
+  <section class="contact" id="contact">
+
+    <h2>새로운 가능성을 시작해 보세요!</h2>
+
+    <p>
+      IT를 처음 시작하는 순간부터 함께하겠습니다.<br>
+      지금 CODE SCHOOL과 함께 미래를 준비하세요.
+    </p>
+
+    <a href="mailto:info@example.com" class="contact-btn">
+      교육 문의하기 →
+    </a>
+
+  </section>
+
+
+  <!-- 하단 정보 -->
+  <footer>
+    <p>CODE SCHOOL. | IT 전문 교육기관</p>
+    <p>Copyright © 2026 CODE SCHOOL. All Rights Reserved.</p>
+  </footer>
+
+
+</body>
+</html>

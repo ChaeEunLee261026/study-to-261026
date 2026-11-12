@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주간 건강 식단 계획표 | Weekly Meal Planner</title>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #e8f5e9;
+      --primary-hover: #1b5e20;
+      --accent: #f57c00;
+      --accent-light: #fff3e0;
+      --text-main: #263238;
+      --text-sub: #546e7a;
+      --bg-page: #f4f7f6;
+      --bg-card: #ffffff;
+      --border-color: #e0e0e0;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* 상단 헤더 */
+    header {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-left: 6px solid var(--primary);
+    }
+
+    .header-info h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .header-info p {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    /* 요약 목표 카드 */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .summary-card .title {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .summary-card .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .summary-card .desc {
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* 식단 테이블 영역 */
+    .table-container {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      margin-bottom: 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 900px;
+    }
+
+    thead th {
+      background-color: #edf4ee;
+      color: #1b5e20;
+      font-weight: 700;
+      padding: 16px 18px;
+      border-bottom: 2px solid #c8e6c9;
+      font-size: 0.95rem;
+    }
+
+    thead th:first-child {
+      width: 110px;
+      text-align: center;
+    }
+
+    tbody td {
+      padding: 18px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+
+    tbody tr:hover {
+      background-color: #fafdfb;
+    }
+
+    .day-badge {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+    }
+
+    .day-name {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .day-sub {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    .weekend .day-name {
+      color: #d32f2f;
+    }
+
+    /* 끼니 아이템 스타일 */
+    .meal-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .meal-title {
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .meal-desc {
+      color: var(--text-sub);
+      font-size: 0.82rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .tag-cal {
+      background: #f1f8e9;
+      color: #33691e;
+    }
+
+    .tag-protein {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .tag-lowcarb {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .tag-snack {
+      background: #f3e5f5;
+      color: #6a1b9a;
+    }
+
+    /* 하단 가이드 팁 */
+    .tips-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+    }
+
+    .tips-card h3 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tips-list {
+      list-style-type: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .tips-list li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    .tips-list li::before {
+      content: "•";
+      position: absolute;
+      left: 6px;
+      color: var(--primary);
+      font-size: 1.2rem;
+      top: -2px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+    }
+
+    /* 반응형 및 인쇄 최적화 */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px 10px;
+      }
+
+      header {
+        padding: 20px;
+      }
+
+      .header-info h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .summary-grid, .tips-card, footer {
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      .table-container {
+        box-shadow: none;
+        border: 1px solid #000;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 상단 타이틀 영역 -->
+    <header>
+      <div class="header-info">
+        <h1>🌱 주간 균형 식단 계획표</h1>
+        <p>영양 균형과 지속 가능한 건강한 식습관을 위한 일주일 플래너</p>
+      </div>
+      <div class="header-badge">
+        📅 이번 주 목표: 단백질 충분히 섭취 & 저염 조리
+      </div>
+    </header>
+
+    <!-- 핵심 목표 요약 카드 -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <span class="title">목표 섭취 칼로리</span>
+        <span class="value">1,850 kcal</span>
+        <span class="desc">일일 기준 권장량</span>
+      </div>
+      <div class="summary-card">
+        <span class="title">탄 · 단 · 지 목표 비율</span>
+        <span class="value">50 : 30 : 20 %</span>
+        <span class="desc">고단백 균형 유지</span>
+      </div>
+      <div class="summary-card">
+        <span class="title">일일 수분 섭취량</span>
+        <span class="value">2.0 Liters</span>
+        <span class="desc">식전 30분 미온수 1컵</span>
+      </div>
+      <div class="summary-card">
+        <span class="title">금주 권장 실천 팁</span>
+        <span class="value">식이섬유 먼저</span>
+        <span class="desc">식사 전 샐러드·나물 우선 섭취</span>
+      </div>
+    </div>
+
+    <!-- 식단 계획표 테이블 -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>요일</th>
+            <th>아침 (08:00)</th>
+            <th>점심 (12:30)</th>
+            <th>저녁 (18:30)</th>
+            <th>간식 / 음료</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 월요일 -->
+          <tr>
+            <td>
+              <div class="day-badge">
+                <span class="day-name">월요일</span>
+                <span class="day-sub">MON</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">그릭 요거트 & 오트밀 보울</span>
+                <span class="meal-desc">무가당 그릭요거트 100g, 블루베리, 견과류 한 줌</span>
+                <div class="tags">
+                  <span class="tag tag-cal">340 kcal</span>
+                  <span class="tag tag-protein">단백질 18g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">현미밥 & 닭가슴살 샐러드</span>
+                <span class="meal-desc">현미밥 130g, 수비드 닭가슴살, 파프리카, 오리엔탈 드레싱</span>
+                <div class="tags">
+                  <span class="tag tag-cal">520 kcal</span>
+                  <span class="tag tag-protein">단백질 35g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">두부 버섯 배추 전골</span>
+                <span class="meal-desc">맑은 멸치육수, 손두부 1/2모, 표고·팽이버섯, 알배추</span>
+                <div class="tags">
+                  <span class="tag tag-cal">380 kcal</span>
+                  <span class="tag tag-lowcarb">저염·고식이섬유</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">방울토마토 10알</span>
+                <span class="meal-desc">루이보스 티 1잔</span>
+                <div class="tags">
+                  <span class="tag tag-snack">80 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- 화요일 -->
+          <tr>
+            <td>
+              <div class="day-badge">
+                <span class="day-name">화요일</span>
+                <span class="day-sub">TUE</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">통밀 토스트 & 삶은 달걀 2개</span>
+                <span class="meal-desc">통밀빵 1장, 아보카도 스프레드, 반숙 달걀 2알</span>
+                <div class="tags">
+                  <span class="tag tag-cal">360 kcal</span>
+                  <span class="tag tag-protein">단백질 16g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">소고기 우둔살 비빔밥</span>
+                <span class="meal-desc">보리밥 130g, 기름기 적은 소고기 우둔살, 어린잎 채소, 저염 강된장</span>
+                <div class="tags">
+                  <span class="tag tag-cal">550 kcal</span>
+                  <span class="tag tag-protein">단백질 32g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">연어 스테이크 & 구운 채소</span>
+                <span class="meal-desc">생연어 구이 130g, 아스파라거스, 방울양배추</span>
+                <div class="tags">
+                  <span class="tag tag-cal">420 kcal</span>
+                  <span class="tag tag-protein">오메가-3 풍부</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">아몬드 15알</span>
+                <span class="meal-desc">따뜻한 보리차</span>
+                <div class="tags">
+                  <span class="tag tag-snack">100 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- 수요일 -->
+          <tr>
+            <td>
+              <div class="day-badge">
+                <span class="day-name">수요일</span>
+                <span class="day-sub">WED</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">사과 & 단백질 쉐이크</span>
+                <span class="meal-desc">사과 반쪽, 무설탕 아몬드 밀크 + WPI 프로틴 1스쿱</span>
+                <div class="tags">
+                  <span class="tag tag-cal">290 kcal</span>
+                  <span class="tag tag-protein">단백질 24g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">훈제오리 채소 볶음 & 잡곡밥</span>
+                <span class="meal-desc">기름 뺀 훈제오리 120g, 부추, 양파, 귀리잡곡밥</span>
+                <div class="tags">
+                  <span class="tag tag-cal">540 kcal</span>
+                  <span class="tag tag-protein">단백질 28g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">닭가슴살 곤약 볶음밥</span>
+                <span class="meal-desc">현미곤약밥, 잘게 썬 닭가슴살, 파프리카, 올리브유 살짝</span>
+                <div class="tags">
+                  <span class="tag tag-cal">360 kcal</span>
+                  <span class="tag tag-lowcarb">저칼로리 포만감</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">오이 스틱 & 저지방 스트링치즈</span>
+                <span class="meal-desc">페퍼민트 티</span>
+                <div class="tags">
+                  <span class="tag tag-snack">75 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- 목요일 -->
+          <tr>
+            <td>
+              <div class="day-badge">
+                <span class="day-name">목요일</span>
+                <span class="day-sub">THU</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">단호박 에그슬럿</span>
+                <span class="meal-desc">미니 단호박 속 달걀 1개, 모짜렐라 소량 넣고 전자레인지 조리</span>
+                <div class="tags">
+                  <span class="tag tag-cal">310 kcal</span>
+                  <span class="tag tag-protein">단백질 14g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">고등어 구이 정식</span>
+                <span class="meal-desc">오븐구이 고등어 반 마리, 흑미밥 130g, 미역국, 시금치나물</span>
+                <div class="tags">
+                  <span class="tag tag-cal">510 kcal</span>
+                  <span class="tag tag-protein">단백질 30g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">소고기 야채말이 찜</span>
+                <span class="meal-desc">우둔살 슬라이스에 팽이버섯·파프리카 말아 찜기 조리</span>
+                <div class="tags">
+                  <span class="tag tag-cal">390 kcal</span>
+                  <span class="tag tag-protein">단백질 33g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">구운 계란 1알</span>
+                <span class="meal-desc">캐모마일 티</span>
+                <div class="tags">
+                  <span class="tag tag-snack">70 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- 금요일 -->
+          <tr>
+            <td>
+              <div class="day-badge">
+                <span class="day-name">금요일</span>
+                <span class="day-sub">FRI</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">바나나 & 삶은 계란 2개</span>
+                <span class="meal-desc">바나나 1개, 완숙 계란 2개, 블랙커피 1잔</span>
+                <div class="tags">
+                  <span class="tag tag-cal">320 kcal</span>
+                  <span class="tag tag-protein">단백질 15g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">통밀 파스타 & 새우 샐러드</span>
+                <span class="meal-desc">통밀 파스타면 70g, 알새우 8마리, 마늘, 올리브오일 약간</span>
+                <div class="tags">
+                  <span class="tag tag-cal">490 kcal</span>
+                  <span class="tag tag-protein">단백질 26g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">포케 볼 (연어 또는 닭가슴살)</span>
+                <span class="meal-desc">샐러드믹스 듬뿍, 귀리밥 반공기, 날치알, 와사비 간장 소스</span>
+                <div class="tags">
+                  <span class="tag tag-cal">410 kcal</span>
+                  <span class="tag tag-protein">클린 밀</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">호두 5알 & 다크초콜릿 1조각</span>
+                <span class="meal-desc">카카오 85% 이상</span>
+                <div class="tags">
+                  <span class="tag tag-snack">95 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- 토요일 -->
+          <tr class="weekend">
+            <td>
+              <div class="day-badge">
+                <span class="day-name">토요일</span>
+                <span class="day-sub">SAT</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">프렌치토스트 & 베리류</span>
+                <span class="meal-desc">통밀식빵 1장에 계란물 입혀 굽기, 알룰로스 시럽 살짝</span>
+                <div class="tags">
+                  <span class="tag tag-cal">350 kcal</span>
+                  <span class="tag tag-protein">주말 브런치</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">월남쌈 (라이스페이퍼 5장)</span>
+                <span class="meal-desc">소고기 우둔살, 파프리카, 오이, 깻잎, 칠리소스 소량</span>
+                <div class="tags">
+                  <span class="tag tag-cal">480 kcal</span>
+                  <span class="tag tag-protein">풍부한 비타민</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">목살 스테이크 샐러드</span>
+                <span class="meal-desc">지방 제거한 돼지 목살 150g, 구운 마늘, 어린잎 샐러드</span>
+                <div class="tags">
+                  <span class="tag tag-cal">450 kcal</span>
+                  <span class="tag tag-protein">단백질 34g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">플레인 탄산수 & 레몬 슬라이스</span>
+                <span class="meal-desc">청량한 수분 보충</span>
+                <div class="tags">
+                  <span class="tag tag-snack">0 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- 일요일 -->
+          <tr class="weekend">
+            <td>
+              <div class="day-badge">
+                <span class="day-name">일요일</span>
+                <span class="day-sub">SUN</span>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">오버나이트 오트밀</span>
+                <span class="meal-desc">오트밀 40g, 저지방 우유, 치아씨드, 사과 슬라이스</span>
+                <div class="tags">
+                  <span class="tag tag-cal">330 kcal</span>
+                  <span class="tag tag-protein">단백질 12g</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">자유식 (치팅 밀 한 끼)</span>
+                <span class="meal-desc">초밥 10피스 또는 샤브샤브 등 맑은 국물 중심 자유 식사</span>
+                <div class="tags">
+                  <span class="tag tag-cal">650 kcal</span>
+                  <span class="tag tag-lowcarb">과식 주의·스트레스 해소</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">양배추 달걀 덮밥</span>
+                <span class="meal-desc">채 썬 양배추 볶음, 굴소스 반 큰술, 계란 2개 스크램블, 잡곡밥 반공기</span>
+                <div class="tags">
+                  <span class="tag tag-cal">350 kcal</span>
+                  <span class="tag tag-lowcarb">소화 편한 저녁</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="meal-block">
+                <span class="meal-title">따뜻한 우유 1잔 (150ml)</span>
+                <span class="meal-desc">숙면을 돕는 트립토판 보충</span>
+                <div class="tags">
+                  <span class="tag tag-snack">90 kcal</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 하단 실천 팁 -->
+    <div class="tips-card">
+      <h3>💡 식단 실천 4원칙</h3>
+      <ul class="tips-list">
+        <li><strong>식사 순서 준수:</strong> 채소(식이섬유) → 단백질 반찬 → 탄수화물(밥/빵) 순서로 섭취하여 혈당 스파이크를 방지합니다.</li>
+        <li><strong>천천히 씹기:</strong> 한 입당 최소 20회 이상 꼭꼭 씹어 20분 이상 여유를 두고 식사합니다.</li>
+        <li><strong>충분한 수분:</strong> 식사 중간보다는 식사 30분 전이나 식후 1시간 뒤에 물을 마십니다.</li>
+        <li><strong>지속 가능한 균형:</strong> 주 1회 가벼운 자유식으로 스트레스를 줄이고 장기적인 식습관 형성에 집중합니다.</li>
+      </ul>
+    </div>
+
+    <footer>
+      &copy; 2026 주간 식단 플래너 — Healthy & Balanced Diet Schedule
+    </footer>
+  </div>
+
+</body>
+</html>
+
