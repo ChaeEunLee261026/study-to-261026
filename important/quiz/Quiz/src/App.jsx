@@ -3,8 +3,8 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
-import Quiz03 from './newsblog/Newsblog.jsx'
-import NewsBlog from './1119/newsblog2/Newsblog.jsx'
+// import Quiz03 from './quiz/1117/Quiz03.jsx'
+import NewsBlog from './newsblog/newsblog2/NewsBlog copy.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,7 +13,7 @@ function App() {
 
     <NewsBlog></NewsBlog>
     
- 
+
   )
 }
 
