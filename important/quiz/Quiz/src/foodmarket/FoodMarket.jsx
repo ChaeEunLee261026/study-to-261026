@@ -11,7 +11,7 @@ import FoodCard from "./components/FoodCard";
 import { Routes, Route, Link, useNavigate } from "react-router";
 import CustomerService from "./pages/CustomerService";
 import Home from "./pages/Home";
-
+import Detail from "./pages/Detail";
 
 function FoodMarket(){
 let[foods, setFoods] = useState(foodsData);
@@ -58,6 +58,8 @@ let navigate = useNavigate();
         <Routes>
           <Route path="/" element={<Home foods={foods}/>}/>
           <Route path="/help" element={<CustomerService/>}/>
+          <Route path="/detail/:id" element={<Detail foods={foods}/>}/>
+          <Route path="/detail" element={<div><h1>Detail page</h1></div>}/>
           <Route path="/test" element={<div><h1>이곳은 테스트</h1></div>}/>
           <Route path="/*" element={<div><h1>잘못된 접근입니다. 경로를 확인하세요</h1></div>}/>
         </Routes>

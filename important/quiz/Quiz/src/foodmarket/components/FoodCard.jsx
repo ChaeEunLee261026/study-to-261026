@@ -1,10 +1,13 @@
 import { Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 import food1 from '../img/food1.jpg';
 import food2 from '../img/food2.jpg';
 import food3 from '../img/food3.jpg';
 
 function FoodCard({food}){
+
+  let navigate = useNavigate();
 
     return(
        <Card style={{ width: '18rem' }}>
@@ -16,9 +19,14 @@ function FoodCard({food}){
             {/* Some quick example text to build on the card title */}
             
           </Card.Text>
-          <Button variant="primary">
-            {/* Go somewhere */}
-            {food.price}</Button> 
+          <Card.Text>
+            {food.price}
+          </Card.Text>
+          <Button variant="primary"
+          onClick={()=>{
+              navigate("/detail/" + food.id);
+          }}>
+            상세보기</Button> 
         </Card.Body>
       </Card>
     )

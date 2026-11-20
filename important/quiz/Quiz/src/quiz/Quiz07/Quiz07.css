@@ -1,0 +1,19 @@
+nav {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+nav a {
+  border: 2px solid black;
+  padding: 3px 7px;
+  color: steelblue;
+  text-decoration: underline;
+}
+
+.content {
+  width: 300px;
+  background-color: lightgray;
+  text-align: center;
+  font-size: 16px;
+}
