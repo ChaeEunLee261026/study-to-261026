@@ -1,32 +1,37 @@
 // 기본셋팅
 import "./FoodMarket.css";
 
-import { Container, Nav, Navbar, Spinner, Button, Row, Col, Card } from 'react-bootstrap';
-import banner_bg from './img/banner_bg.jpg';
 
-import food1 from './img/food1.jpg';
-import food2 from './img/food2.jpg';
-import food3 from './img/food3.jpg';
+import banner_bg from './img/banner_bg.jpg';
+import { Navbar,Nav, Container, Row, Col} from 'react-bootstrap';
 
 import foodsData from "./data/foodsData";
 import { useState } from "react";
+import FoodCard from "./components/FoodCard";
+import { Routes, Route, Link, useNavigate } from "react-router";
+import CustomerService from "./pages/CustomerService";
+import Home from "./pages/Home";
 
 
 function FoodMarket(){
 let[foods, setFoods] = useState(foodsData);
 
-
+let navigate = useNavigate();
 
     return(
     <div>
 
-<Navbar bg="light" data-bs-theme="light">
+    <Navbar bg="light" data-bs-theme="light">
         <Container>
-          <Navbar.Brand href="#home">FoodMarket</Navbar.Brand>
+          {/* <Navbar.Brand href="#home">FoodMarket</Navbar.Brand> */}
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="#home"> <Link to ="/">Home</Link></Nav.Link>
+            <Nav.Link onClick={()=>{navigate("/detail") }}>FoodDetail(상세)</Nav.Link>
+            <Nav.Link onClick={()=>{navigate("/info") }}>Info</Nav.Link>
+            <Nav.Link onClick={()=>{navigate("/help") }}>고객센터</Nav.Link>
+            
+             {/* <Nav.Link><Link to="/info">고객센터</Link></Nav.Link> 
+            <Nav.Link href="/help">고객센터</Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>
@@ -49,65 +54,13 @@ let[foods, setFoods] = useState(foodsData);
 
 {/* <img src={banner_bg}></img> */}
 
-<div className="main-bg"></div>
 
-
-<Container> 
-  <Row>
-
-    {/* 첫 번째 카드 */}
-    <Col md={4} sm={4} xxl={3}>
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={food1} />
-        <Card.Body>
-          <Card.Title>{foods[0].title}</Card.Title>
-          <Card.Text>
-            {foods[0].content}
-            {/* Some quick example text to build on the card title */}
-            
-          </Card.Text>
-          <Button variant="primary">
-            {/* Go somewhere */}
-            {foods[0].price}</Button> 
-        </Card.Body>
-      </Card>
-    </Col>
-
-    {/* 두 번째 카드 */}
-    <Col md={4} sm={4} xxl={3}>
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={food2} />
-        <Card.Body>
-          <Card.Title>{foods[1].title}</Card.Title>
-          <Card.Text>
-            {foods[1].content}
-            {/* Some quick example text to build on the card title */}
-          </Card.Text>
-          <Button variant="primary"> {foods[1].price}</Button> 
-            {/* Go somewhere*/}
-        </Card.Body>
-      </Card>
-    </Col>
-
-    {/* 세 번째 카드 */}
-    <Col md={4} sm={4} xxl={3}>
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={food3} />
-        <Card.Body>
-          <Card.Title>{foods[2].title}</Card.Title>
-          <Card.Text>
-            {foods[2].content}
-            {/* Some quick example text to build on the card title */}
-          </Card.Text>
-          <Button variant="primary">{foods[3].price}</Button>
-            {/* Go somewhere */}
-        </Card.Body>
-      </Card>
-    </Col>
-
-  </Row>
-</Container> 
-
+        <Routes>
+          <Route path="/" element={<Home foods={foods}/>}/>
+          <Route path="/help" element={<CustomerService/>}/>
+          <Route path="/test" element={<div><h1>이곳은 테스트</h1></div>}/>
+          <Route path="/*" element={<div><h1>잘못된 접근입니다. 경로를 확인하세요</h1></div>}/>
+        </Routes>
 
 
     

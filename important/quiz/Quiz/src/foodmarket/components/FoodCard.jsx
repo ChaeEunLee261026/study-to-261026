@@ -1,24 +1,24 @@
 import { Button, Card } from "react-bootstrap";
 
-import food1 from './img/food1.jpg';
-import food2 from './img/food2.jpg';
-import food3 from './img/food3.jpg';
+import food1 from '../img/food1.jpg';
+import food2 from '../img/food2.jpg';
+import food3 from '../img/food3.jpg';
 
-function FoodCard(){
+function FoodCard({food}){
 
     return(
        <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={food1} />
+        <Card.Img variant="top" src={food.imgPath} />
         <Card.Body>
-          <Card.Title>{foods[0].title}</Card.Title>
+          <Card.Title>{food.title}</Card.Title>
           <Card.Text>
-            {foods[0].content}
+            {food.content}
             {/* Some quick example text to build on the card title */}
             
           </Card.Text>
           <Button variant="primary">
             {/* Go somewhere */}
-            {foods[0].price}</Button> 
+            {food.price}</Button> 
         </Card.Body>
       </Card>
     )

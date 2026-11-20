@@ -3,7 +3,7 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
-// import Quiz03 from './quiz/1117/Quiz03.jsx'
+// import Quiz06 from './quiz/Quiz06/Quiz06.jsx'
 import FoodMarket from './foodmarket/FoodMarket.jsx'
 
 function App() {
@@ -11,7 +11,8 @@ function App() {
 
   return (
  <div>
-    <FoodMarket></FoodMarket>
+    {/* <Quiz06></Quiz06> */}
+    <FoodMarket/>
     </div>
 
   )
