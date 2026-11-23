@@ -1,0 +1,29 @@
+# Python 캐시 및 컴파일 파일
+__pycache__/
+*.py[cod]
+
+# 가상환경
+.venv/
+venv/
+env/
+
+# VS Code 설정
+.vscode/
+
+# 테스트 및 분석 도구 캐시
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# 환경변수 및 비밀정보
+.env
+.env.*
+!.env.example
+
+# 운영체제 임시 파일
+.DS_Store
+Thumbs.db
+
+# 실습 중 생성되는 파일
+*.png
+ledger.json
