@@ -143,6 +143,65 @@ return()=>{
     }
 
 
+/*
+스타일 적용
+
+조건에 따라서 스타일 적용
+가격표시
+1만원 이상 → 빨간색 금액 표시
+1만원 미만 → 파란색 금액 표시
+
+1) js 객체 단위 관리
+요소에 style 속성에는 js객체로 설정 가능
+
+2) js 함수방식
+
+3) css클래스 연계 사용
+
+*/
+
+// 1) js 객체 단위 관리
+const priceTextStyle = {
+    // key:vlue;
+     color:food.price >= 10000 ? "red" : "blue"
+}
+
+// 2) js 함수방식
+const priceTextStyleFunc = (price)=>{
+    if(price >= 10000)
+        return {color:"red"};
+    else
+        return {color:"blue"};
+    // return {color : price >= 10000? "red" : "blue"};
+}
+
+// 3) css클래스 연계 사용
+const priceTextClassName = (food.price >= 10000 ? "price-red" : "price-blue");
+
+// 4) css클래스 + useState + useEffect 조합 → 효과발생
+
+// 5) js객체로 내부에서 스타일 정의 및 사용
+
+
+
+
+
+const styles = {
+    redStyle : {color:'red'},
+    blueStyle : {color:'blue'},
+
+    fontBigBold : {
+        fontSize:'36px',
+        fontWeight:'bold'
+    },
+
+    titleStyle : {
+        paddingTop : '30px',
+        fontSize:'40px',
+        fontWeight:'bold'
+    }
+}
+
 
     return (
         <Container className={"start" + "end"}>
@@ -151,9 +210,23 @@ return()=>{
                     <img src={ import.meta.env.BASE_URL + food.imgPath} style={ {width:'100%'} } />
                 </Col>
                 <Col md={6}>
-                    <h4>{food.title}</h4>
-                    <p>{food.content}</p>
-                    <p>{food.price}</p>
+                    <h4 style={styles.titleStyle}>{food.title}</h4>
+                    <p style={styles.fontBigBold}>{food.content}</p>
+                    <p style={priceTextStyle}>{food.price}</p>
+
+                     <p style={priceTextStyleFunc(food.price)}>{food.price}</p>
+
+<p className={ food.price >= 10000 ? 'price-red' : 'price-blue'}>{food.price}</p>
+<p className={ 'text-strong ' + (food.price >= 10000 ? 'price-red' : 'price-blue')}>{food.price}</p>
+
+<p className={ 'text-strong ' + priceTextClassName}>{food.price}</p>
+<p className={ ['text-strong ' + priceTextClassName].join(" ")}>{food.price}</p>
+
+<p className={ 'text-strong ${priceTextClassName}' }>{food.price}</p>
+<p className={ 'text-strong ${(food.price >= 10000 ? "price-red" : "price-blue")}'}>{food.price}</p>
+
+
+
 
    {/* 재고 확인용 코드 */}
     <p>상품명 : {food.title}</p>
