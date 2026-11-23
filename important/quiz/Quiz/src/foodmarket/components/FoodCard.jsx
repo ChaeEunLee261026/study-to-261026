@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import food1 from '../img/food1.jpg';
 import food2 from '../img/food2.jpg';

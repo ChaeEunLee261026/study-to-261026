@@ -13,15 +13,14 @@ function Home({foods}){
 
 <Container> 
   <Row>
-    {
-      foods.map((food, index)=>{
-        return (
-          <Col md={4} sm={4} xxl={3}>
-            <FoodCard food={food}/>
-          </Col>
-        )
-      })
-    }
+   {foods.map((food, index) => {
+    return (
+        <FoodCard 
+            key={food.id}
+            food={food}
+        />
+    )
+})}
 
     {/* 첫 번째 카드 */}
     {/* <Col md={4} sm={4} xxl={3}>

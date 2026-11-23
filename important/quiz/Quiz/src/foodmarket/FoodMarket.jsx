@@ -8,7 +8,7 @@ import { Navbar,Nav, Container, Row, Col} from 'react-bootstrap';
 import foodsData from "./data/foodsData";
 import { useState } from "react";
 import FoodCard from "./components/FoodCard";
-import { Routes, Route, Link, useNavigate } from "react-router";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import CustomerService from "./pages/CustomerService";
 import Home from "./pages/Home";
 import Detail from "./pages/Detail";
@@ -25,7 +25,7 @@ let navigate = useNavigate();
         <Container>
           {/* <Navbar.Brand href="#home">FoodMarket</Navbar.Brand> */}
           <Nav className="me-auto">
-            <Nav.Link href="#home"> <Link to ="/">Home</Link></Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link onClick={()=>{navigate("/detail") }}>FoodDetail(상세)</Nav.Link>
             <Nav.Link onClick={()=>{navigate("/info") }}>Info</Nav.Link>
             <Nav.Link onClick={()=>{navigate("/help") }}>고객센터</Nav.Link>
