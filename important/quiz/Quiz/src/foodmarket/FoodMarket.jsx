@@ -18,6 +18,32 @@ let[foods, setFoods] = useState(foodsData);
 
 let navigate = useNavigate();
 
+// 상품 주문 처리 함수
+function orderFood(id, orderCount) {
+
+    setFoods(prevFoods => {
+
+        return prevFoods.map(food => {
+
+            if(food.id === id) {
+
+                return {
+                    ...food,
+                    stockCount: food.stockCount - orderCount
+                };
+
+            }
+
+            return food;
+
+        });
+
+    });
+
+}
+
+
+
     return(
     <div>
 
@@ -58,7 +84,17 @@ let navigate = useNavigate();
         <Routes>
           <Route path="/" element={<Home foods={foods}/>}/>
           <Route path="/help" element={<CustomerService/>}/>
-          <Route path="/detail/:id" element={<Detail foods={foods}/>}/>
+          {/* <Route path="/detail/:id" element={<Detail foods={foods}/>}/> */}
+<Route
+    path="/detail/:id"
+    element={
+        <Detail
+            foods={foods}
+            orderFood={orderFood}
+        />
+    }
+/>
+
           <Route path="/detail" element={<div><h1>Detail page</h1></div>}/>
           <Route path="/test" element={<div><h1>이곳은 테스트</h1></div>}/>
           <Route path="/*" element={<div><h1>잘못된 접근입니다. 경로를 확인하세요</h1></div>}/>
