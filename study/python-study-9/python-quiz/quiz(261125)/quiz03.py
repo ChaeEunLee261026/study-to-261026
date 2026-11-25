@@ -5,10 +5,15 @@
 # 입력 예) 7
 # 출력 예) 7 * 1 = 7 ... 7 * 9 = 63
 
-# 구구단 7단 출력
+# 구구단 7단 출력 (7단 고정)
+# print("1번 문제")
+# for i in range(1, 10):
+#     print(f'7 x {i} = {7*i}')
+# print()
 print("1번 문제")
+dan = int(input("원하는 구구단 출력값 입력: "))
 for i in range(1, 10):
-    print(f'7 x {i} = {7*i}')
+    print(f'{dan} x {i} = {dan*i}')
 print()
 
 # 문제2)
