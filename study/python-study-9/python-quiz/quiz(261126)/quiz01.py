@@ -82,3 +82,15 @@ print()
 
 이렇게도 출력 가능
 '''
+
+# 입력값에 따른 별 출력
+print("입력값에 따른 별 출력")
+n = int(input("숫자입력 :"))
+
+for i in range(n):
+    for j in range(n-i):
+        print("*", end="")
+print()
+
+for i in range(n):
+    print(' '*((n-1)-i) + '*'*(2*i + 1))
