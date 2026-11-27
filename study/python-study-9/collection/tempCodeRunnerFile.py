@@ -1,1 +1,1 @@
-reverse : 값 뒤집기
+print(int('12q34'))
